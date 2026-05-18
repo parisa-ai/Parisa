@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PARISA AI</title>
+<meta name="theme-color" content="#001f3f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PARISA AI">
+<link rel="manifest" href="/manifest.json">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<!-- Splash Screen -->
+<div id="splash">
+  <div class="splash-inner">
+    <div class="splash-logo-wrap">
+      <div class="splash-logo-ring r3"></div>
+      <div class="splash-logo-ring r2"></div>
+      <div class="splash-logo-ring r1"></div>
+      <div class="splash-logo" id="splashLogo">P</div>
+    </div>
+    <div class="splash-title">PARISA AI</div>
+    <div class="splash-sub">আপনার ব্যক্তিগত সহকারী</div>
+  </div>
+</div>
+
+<!-- Sidebar Overlay -->
+<div id="sidebarOverlay" class="overlay-bg hidden" onclick="closeSidebar()"></div>
+<div id="sidebar" class="sidebar hidden">
+  <div class="sidebar-top">
+    <button class="icon-btn" onclick="closeSidebar()">✕</button>
+    <button class="new-chat-btn" onclick="newChat()">＋ নতুন চ্যাট</button>
+  </div>
+  <div id="chatList" class="chat-list"></div>
+  <button class="settings-btn" onclick="openSettings()">⚙ সেটিংস</button>
+</div>
+
+<!-- Main App -->
+<div id="app">
+  <!-- Header -->
+  <div class="header">
+    <button class="menu-btn" onclick="openSidebar()">≡</button>
+    <span class="header-title">PARISA AI</span>
+    <div class="header-avatar" id="headerAvatarWrap">
+      <img id="headerAvatarImg" src="" alt="P" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <span class="avatar-fallback" id="headerFallback">P</span>
+    </div>
+  </div>
+
+  <!-- Chat Area -->
+  <div id="chat">
+    <div id="welcomeSection" class="welcome-section">
+      <div class="main-avatar-wrap">
+        <div class="main-avatar-ring"></div>
+        <div class="main-avatar-inner">
+          <img id="mainAvatarImg" src="" alt="P" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <span class="avatar-fallback-big" id="mainFallback">P</span>
+        </div>
+      </div>
+    </div>
+    <div id="messages"></div>
+  </div>
+
+  <!-- Input Bar -->
+  <div class="input-bar">
+    <button class="input-icon-btn" onclick="triggerImageUpload()" title="ছবি পাঠান">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>
+    </button>
+    <button class="input-icon-btn" onclick="triggerCameraCapture()" title="ক্যামেরা">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+    </button>
+    <button class="input-icon-btn" onclick="startAudioCall()" title="অডিও কল">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.2 2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg>
+    </button>
+    <button class="input-icon-btn" onclick="startVideoCall()" title="ভিডিও কল">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+    </button>
+    <input type="text" id="textInput" placeholder="কিছু লিখুন বা জিজ্ঞাসা করুন..." onkeydown="if(event.key==='Enter')sendMessage()">
+    <input type="file" id="imageFileInput" accept="image/*" style="display:none" onchange="handleImageFile(this)">
+    <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none" onchange="handleImageFile(this)">
+    <button class="input-icon-btn mic-btn" onclick="toggleMic()" id="micBtn" title="ভয়েস">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg>
+    </button>
+    <button class="send-btn" onclick="sendMessage()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- Audio Call Screen -->
+<div id="audioCall" class="call-screen hidden">
+  <div class="call-top-info">
+    <div class="call-name">পারিসা</div>
+    <div class="call-status-text" id="callStatusText">সংযোগ হচ্ছে...</div>
+    <div class="call-timer" id="callTimerDisplay">00:00</div>
+  </div>
+  <div class="logo-ball-area">
+    <div class="ball-ring br3"></div>
+    <div class="ball-ring br2"></div>
+    <div class="ball-ring br1"></div>
+    <div class="logo-ball" id="logoBall">
+      <img id="callLogoImg" src="" alt="P" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <span class="logo-ball-fallback" id="callFallback">P</span>
+    </div>
+  </div>
+  <div class="call-controls">
+    <button class="end-call-btn" onclick="endAudioCall()">কল শেষ</button>
+  </div>
+</div>
+
+<!-- Video Call Screen -->
+<div id="videoCall" class="call-screen hidden">
+  <video id="videoStream" autoplay muted playsinline></video>
+  <div class="video-top-bar">
+    <div class="video-call-info">
+      <div class="video-call-title">ভিডিও কল • পারিসা</div>
+      <div class="video-timer" id="videoTimerDisplay">00:00</div>
+    </div>
+    <div class="video-connected" id="videoStatusText">কানেক্টড</div>
+  </div>
+  <div class="video-controls">
+    <button class="end-call-btn" onclick="endVideoCall()">কল শেষ</button>
+    <button class="flip-btn" onclick="flipCamera()" title="ক্যামেরা ঘোরাও">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- Settings Modal -->
+<div id="settingsOverlay" class="overlay-bg hidden" onclick="closeSettings()"></div>
+<div id="settingsPanel" class="settings-panel hidden">
+  <div class="settings-header">
+    <span class="settings-title">সেটিংস</span>
+    <button class="icon-btn" onclick="closeSettings()">✕</button>
+  </div>
+  <div class="settings-body">
+
+    <div class="setting-group">
+      <label class="setting-label">ভয়েস সিলেক্ট</label>
+      <select id="voiceSelect" class="setting-select">
+        <option value="bn-BD-NabanitaNeural">Nabanita — মহিলা (বাংলাদেশ)</option>
+        <option value="bn-BD-PradeepNeural">Pradeep — পুরুষ (বাংলাদেশ)</option>
+        <option value="bn-IN-TanishaaNeural">Tanishaa — মহিলা (ভারত)</option>
+        <option value="bn-IN-BashkarNeural">Bashkar — পুরুষ (ভারত)</option>
+      </select>
+      <button class="test-btn" onclick="testVoice()">টেস্ট করুন</button>
+    </div>
+
+    <div class="setting-group">
+      <label class="setting-label">আপনার নাম (AI আপনাকে এই নামে ডাকবে)</label>
+      <input type="text" id="settingUserName" class="setting-input" placeholder="দাদা">
+    </div>
+
+    <div class="setting-group">
+      <label class="setting-label">Custom Prompt — পারিসা আপনার সাথে কেমন আচরণ করবে</label>
+      <textarea id="settingPrompt" class="setting-textarea" rows="5" placeholder="এখানে নির্দেশনা লিখুন..."></textarea>
+      <small class="setting-hint">এখানে লেখা থাকলে এটাই AI-এর behavior ঠিক করবে। খালি রাখলে ডিফল্ট ব্যবহার হবে।</small>
+      <div class="file-upload-box">
+        <button class="upload-files-btn" onclick="document.getElementById('assetUploadInput').click()">
+          📁 ফাইল আপলোড করুন
+        </button>
+        <input type="file" id="assetUploadInput" multiple accept="*/*" style="display:none" onchange="uploadAssets(this)">
+        <div id="uploadedFileList" class="uploaded-file-list"></div>
+      </div>
+    </div>
+
+    <div class="setting-group">
+      <label class="setting-label">লোগো URL (ইচ্ছিক)</label>
+      <input type="text" id="settingLogoUrl" class="setting-input" placeholder="https://example.com/logo.jpg">
+    </div>
+
+    <div class="setting-group api-keys-section">
+      <div class="api-key-block">
+        <div class="api-key-header-row">
+          <span class="api-key-label">⚡ Groq API Key</span>
+          <span class="status-dot" id="groqStatusDot"></span>
+        </div>
+        <div class="api-key-input-row">
+          <input type="password" id="groqKeyInput" class="setting-input" placeholder="gsk_xxxxxxxxxx">
+          <button class="check-btn" onclick="saveAndCheckKey('groq')">সেভ ও চেক</button>
+        </div>
+      </div>
+
+      <div class="api-key-block">
+        <div class="api-key-header-row">
+          <span class="api-key-label">✨ Gemini API Key</span>
+          <span class="status-dot" id="geminiStatusDot"></span>
+        </div>
+        <div class="api-key-input-row">
+          <input type="password" id="geminiKeyInput" class="setting-input" placeholder="AIzaSy...">
+          <button class="check-btn" onclick="saveAndCheckKey('gemini')">সেভ ও চেক</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-actions">
+      <button class="reset-btn" onclick="resetSettings()">রিসেট</button>
+      <button class="save-btn" onclick="saveSettings()">সেভ</button>
+    </div>
+  </div>
+</div>
+
+<!-- Image Preview Overlay -->
+<div id="imagePreviewOverlay" class="overlay-bg hidden" onclick="closeImagePreview()">
+  <img id="imagePreviewImg" src="" alt="">
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>

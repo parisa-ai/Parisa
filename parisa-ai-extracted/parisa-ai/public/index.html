@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parisa AI</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="header">☰ PARISA AI 💙</div>
+
+<div id="chat"></div>
+
+<!-- Camera Preview -->
+<video id="cam" autoplay muted class="cam"></video>
+
+<div class="inputBox">
+  <input type="file" id="file" accept="image/*">
+  <button onclick="openCamera()">📷</button>
+  <button onclick="mic()">🎤</button>
+  <input id="input" placeholder="লিখো দাদা..." />
+  <button onclick="send()">➤</button>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
