@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "PARISA AI - আপনার ব্যক্তিগত সহকারী",
-  description: "আপনার ব্যক্তিগত AI সহকারী",
+  title: "PARISA AI",
+  description: "আপনার ব্যক্তিগত AI সহকারী - বাংলায় কথা বলুন",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
