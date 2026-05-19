@@ -49,7 +49,7 @@ export default function ParisaAI() {
           <button className="menu-btn" onClick={() => (window as unknown as { openSidebar: () => void }).openSidebar?.()}>&#8801;</button>
           <span className="header-title">PARISA AI</span>
           <div className="header-avatar" id="headerAvatarWrap">
-            <img id="headerAvatarImg" src="" alt="P" onError={(e) => { e.currentTarget.style.display = "none"; e.currentTarget.nextElementSibling && ((e.currentTarget.nextElementSibling as HTMLElement).style.display = "flex"); }} />
+            <img id="headerAvatarImg" alt="P" onError={(e) => { e.currentTarget.style.display = "none"; e.currentTarget.nextElementSibling && ((e.currentTarget.nextElementSibling as HTMLElement).style.display = "flex"); }} />
             <span className="avatar-fallback" id="headerFallback">P</span>
           </div>
         </div>
@@ -60,7 +60,7 @@ export default function ParisaAI() {
             <div className="main-avatar-wrap">
               <div className="main-avatar-ring"></div>
               <div className="main-avatar-inner">
-                <img id="mainAvatarImg" src="" alt="P" onError={(e) => { e.currentTarget.style.display = "none"; e.currentTarget.nextElementSibling && ((e.currentTarget.nextElementSibling as HTMLElement).style.display = "flex"); }} />
+                <img id="mainAvatarImg" alt="P" onError={(e) => { e.currentTarget.style.display = "none"; e.currentTarget.nextElementSibling && ((e.currentTarget.nextElementSibling as HTMLElement).style.display = "flex"); }} />
                 <span className="avatar-fallback-big" id="mainFallback">P</span>
               </div>
             </div>
@@ -106,7 +106,7 @@ export default function ParisaAI() {
           <div className="ball-ring br2"></div>
           <div className="ball-ring br1"></div>
           <div className="logo-ball" id="logoBall">
-            <img id="callLogoImg" src="" alt="P" onError={(e) => { e.currentTarget.style.display = "none"; e.currentTarget.nextElementSibling && ((e.currentTarget.nextElementSibling as HTMLElement).style.display = "flex"); }} />
+            <img id="callLogoImg" alt="P" onError={(e) => { e.currentTarget.style.display = "none"; e.currentTarget.nextElementSibling && ((e.currentTarget.nextElementSibling as HTMLElement).style.display = "flex"); }} />
             <span className="logo-ball-fallback" id="callFallback">P</span>
           </div>
         </div>
@@ -208,7 +208,7 @@ export default function ParisaAI() {
 
       {/* Image Preview Overlay */}
       <div id="imagePreviewOverlay" className="overlay-bg hidden" onClick={() => (window as unknown as { closeImagePreview: () => void }).closeImagePreview?.()}>
-        <img id="imagePreviewImg" src="" alt="" />
+        <img id="imagePreviewImg" alt="" />
       </div>
     </>
   );
