@@ -418,7 +418,7 @@ async function playMsgVoice(btn) {
   btn.textContent = '🔊 ভয়েস';
 }
 
-// ─────────────────────���────────────────────────
+// ─────────────────────�����────────────────────────
 // MIC (chat mode)
 // ──────────────────────────────────────────────
 function toggleMic() {
@@ -761,6 +761,35 @@ function generatePWAIcon(size) {
 }
 
 // ──────────────────────────────────────────────
+// EXPOSE TO WINDOW
+// ──────────────────────────────────────────────
+window.openSidebar = openSidebar;
+window.closeSidebar = closeSidebar;
+window.openSettings = openSettings;
+window.closeSettings = closeSettings;
+window.saveSettings = saveSettings;
+window.resetSettings = resetSettings;
+window.newChat = newChat;
+window.sendMessage = sendMessage;
+window.toggleMic = toggleMic;
+window.startAudioCall = startAudioCall;
+window.endAudioCall = endAudioCall;
+window.startVideoCall = startVideoCall;
+window.endVideoCall = endVideoCall;
+window.flipCamera = flipCamera;
+window.triggerImageUpload = triggerImageUpload;
+window.triggerCameraCapture = triggerCameraCapture;
+window.handleImageFile = handleImageFile;
+window.closeImagePreview = closeImagePreview;
+window.testVoice = testVoice;
+window.saveAndCheckKey = saveAndCheckKey;
+window.uploadAssets = uploadAssets;
+
+// ──────────────────────────────────────────────
 // START
 // ──────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', init);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
